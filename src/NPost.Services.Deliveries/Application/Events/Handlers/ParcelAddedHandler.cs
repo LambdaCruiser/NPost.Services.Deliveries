@@ -4,6 +4,7 @@ using Convey.CQRS.Events;
 using Convey.HTTP;
 using Microsoft.Extensions.Logging;
 using NPost.Services.Deliveries.Application.DTO;
+using NPost.Services.Deliveries.Application.Services.Clients;
 using NPost.Services.Deliveries.Core.Entities;
 using NPost.Services.Deliveries.Core.Repositories;
 
@@ -13,9 +14,9 @@ namespace NPost.Services.Deliveries.Application.Events.Handlers
     {
         private readonly ILogger<ParcelAddedHandler> _logger;
         private readonly IParcelsRepository _parcelsRepository;
-        private readonly IHttpClient _client;
+        private readonly IParcelServiceClient _client;
 
-        public ParcelAddedHandler(ILogger<ParcelAddedHandler> logger, IParcelsRepository parcelsRepository, IHttpClient client)
+        public ParcelAddedHandler(ILogger<ParcelAddedHandler> logger, IParcelsRepository parcelsRepository, IParcelServiceClient client)
         {
             _logger = logger;
             _parcelsRepository = parcelsRepository;
@@ -24,8 +25,7 @@ namespace NPost.Services.Deliveries.Application.Events.Handlers
 
         public async Task HandleAsync(ParcelAdded parcelAddedEvent)
         {
-            //var parcelDto = await _client.GetAsync<ParcelDto>($"http://localhost:5002/parcels/{parcelAddedEvent.ParcelId}");
-            var parcelDto = await _client.GetAsync<ParcelDto>($"http://parcels-service/parcels/{parcelAddedEvent.ParcelId}");
+            var parcelDto = await _client.GetAsync(parcelAddedEvent.ParcelId);
             if (parcelDto is null)
             {
                 throw new ArgumentException("Parcel not found");
