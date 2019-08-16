@@ -23,6 +23,7 @@ namespace NPost.Services.Deliveries
                     .AddApplication()
                     .AddInfrastructure()
                     .Build())
+                //To nie MVC tylko takie uproszczone coś
                 .Configure(app => app
                     .UseInfrastructure()
                     .UseDispatcherEndpoints(endpoints => endpoints
