@@ -12,7 +12,6 @@ using NPost.Services.Deliveries.Application;
 using NPost.Services.Deliveries.Application.Commands;
 using NPost.Services.Deliveries.Application.DTO;
 using NPost.Services.Deliveries.Application.Queries;
-using NPost.Services.Deliveries.Core.Entities;
 using NPost.Services.Deliveries.Infrastructure;
 
 namespace NPost.Services.Deliveries
