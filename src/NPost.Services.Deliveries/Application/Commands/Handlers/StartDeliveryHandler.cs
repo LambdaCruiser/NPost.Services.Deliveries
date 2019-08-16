@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Convey.CQRS.Commands;
 using Microsoft.Extensions.Logging;
+using NPost.Services.Deliveries.Application.Events;
 using NPost.Services.Deliveries.Core.Entities;
 using NPost.Services.Deliveries.Core.Repositories;
 
@@ -14,12 +15,15 @@ namespace NPost.Services.Deliveries.Application.Commands.Handlers
         private readonly ILogger<StartDeliveryHandler> _logger;
         private readonly IDeliveriesRepository _deliveriesRepository;
         private readonly IParcelsRepository _parcelsRepository;
+        private readonly IMessageBroker _messageBroker;
 
-        public StartDeliveryHandler(ILogger<StartDeliveryHandler> logger, IDeliveriesRepository deliveriesRepository, IParcelsRepository parcelsRepository)
+        public StartDeliveryHandler(ILogger<StartDeliveryHandler> logger, IDeliveriesRepository deliveriesRepository, 
+            IParcelsRepository parcelsRepository, IMessageBroker messageBroker)
         {
             _logger = logger;
             _deliveriesRepository = deliveriesRepository;
             _parcelsRepository = parcelsRepository;
+            _messageBroker = messageBroker;
         }
 
         public async Task HandleAsync(StartDelivery command)
@@ -41,6 +45,11 @@ namespace NPost.Services.Deliveries.Application.Commands.Handlers
             var delivery = new Delivery(command.DeliveryId, parcels.Select(p => new ParcelInDelivery(p)));
             await _deliveriesRepository.AddAsync(delivery);
             _logger.LogInformation("Saved delivery.");
+
+            foreach (var parcel in parcels)
+            {
+                await _messageBroker.PublishAsync(new DeliveryStarted(command.DeliveryId, parcel.Id));
+            }
         }
     }
 }

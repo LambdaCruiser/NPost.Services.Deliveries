@@ -1,19 +1,20 @@
 ﻿using System;
 using Convey.CQRS.Events;
-using Convey.MessageBrokers;
 
 namespace NPost.Services.Deliveries.Application.Events
 {
     [Contract]
-    public class DeliveryStarted : IEvent
+    public class DeliveryFailed : IEvent
     {
         public Guid DeliveryId { get; }
         public Guid ParcelId { get; }
+        public string Reason { get; }
 
-        public DeliveryStarted(Guid deliveryId, Guid parcelId)
+        public DeliveryFailed(Guid deliveryId, Guid parcelId, string reason)
         {
             DeliveryId = deliveryId;
             ParcelId = parcelId;
+            Reason = reason;
         }
     }
 }
