@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using NPost.Services.Deliveries.Application;
 using NPost.Services.Deliveries.Application.Commands;
+using NPost.Services.Deliveries.Application.DTO;
 using NPost.Services.Deliveries.Application.Queries;
 using NPost.Services.Deliveries.Core.Entities;
 using NPost.Services.Deliveries.Infrastructure;
@@ -31,7 +32,7 @@ namespace NPost.Services.Deliveries
                     .UseInfrastructure()
                     .UseDispatcherEndpoints(endpoints => endpoints
                         .Get("", ctx => ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
-                        .Get<GetDelivery, Delivery>("deliveries/{deliveryId}")
+                        .Get<GetDelivery, DeliveryDto>("deliveries/{deliveryId}")
                         .Post<StartDelivery>("deliveries",
                             afterDispatch: (cmd, ctx) => ctx.Response.Created($"deliveries/{cmd.DeliveryId}"))
                     ))

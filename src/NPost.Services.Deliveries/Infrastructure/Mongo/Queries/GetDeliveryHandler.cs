@@ -4,12 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Convey.CQRS.Queries;
 using MongoDB.Driver;
+using NPost.Services.Deliveries.Application.DTO;
 using NPost.Services.Deliveries.Application.Queries;
 using NPost.Services.Deliveries.Core.Entities;
 
 namespace NPost.Services.Deliveries.Infrastructure.Mongo.Queries
 {
-    public class GetDeliveryHandler : IQueryHandler<GetDelivery, Delivery>
+    public class GetDeliveryHandler : IQueryHandler<GetDelivery, DeliveryDto>
     {
         private readonly IMongoDatabase _database;
 
@@ -18,13 +19,13 @@ namespace NPost.Services.Deliveries.Infrastructure.Mongo.Queries
             _database = database;
         }
 
-        public async Task<Delivery> HandleAsync(GetDelivery query)
+        public async Task<DeliveryDto> HandleAsync(GetDelivery query)
         {
             var delivery = await _database.GetCollection<Delivery>("deliveries")
                 .Find(p => p.Id == query.DeliveryId)
                 .SingleOrDefaultAsync();
 
-            return delivery;
+            return delivery is null ? null : new DeliveryDto(delivery);
         }
     }
 }
