@@ -1,6 +1,6 @@
 @url = http://localhost:5001
-@deliveryId = c814d77b-fd37-41eb-a42f-086ceccf92a4
-@parcels =  ['00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-000000000000']
+@deliveryId = b064cdcd-5119-4674-a599-8d392c4aec62
+@parcels =  ['1bb974b4-bf17-4d9a-a0e5-babdda41bc21']
 
 ###
 GET {{url}}/deliveries/{{deliveryId}}

@@ -11,10 +11,10 @@ namespace NPost.Services.Deliveries.Core.Entities
         public Status Status { get; set; }
         public string Notes { get; set; }
 
-        public Delivery(Guid id)
+        public Delivery(Guid id, IEnumerable<ParcelInDelivery> parcels)
         {
             Id = id;
-            Parcels = new List<ParcelInDelivery>();
+            Parcels = parcels;
             Notes = string.Empty;
         }
     }
