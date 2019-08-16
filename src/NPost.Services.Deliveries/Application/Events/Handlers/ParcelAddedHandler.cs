@@ -24,11 +24,11 @@ namespace NPost.Services.Deliveries.Application.Events.Handlers
 
         public async Task HandleAsync(ParcelAdded parcelAddedEvent)
         {
-            //TODO - nie chcemy hardkodowanej konfiguracji, chcemy DNSa
-            var parcelDto = await _client.GetAsync<ParcelDto>($"http://localhost:5002/parcels/{parcelAddedEvent.ParcelId}");
+            //var parcelDto = await _client.GetAsync<ParcelDto>($"http://localhost:5002/parcels/{parcelAddedEvent.ParcelId}");
+            var parcelDto = await _client.GetAsync<ParcelDto>($"http://parcels-service/parcels/{parcelAddedEvent.ParcelId}");
             if (parcelDto is null)
             {
-                throw new ArgumentException("Parcel not fonud");
+                throw new ArgumentException("Parcel not found");
             }
 
             var parcel = new Parcel(parcelAddedEvent.ParcelId, parcelDto.Address);
