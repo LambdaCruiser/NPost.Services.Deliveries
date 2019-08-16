@@ -18,10 +18,10 @@ namespace NPost.Services.Deliveries.Application.Events.Handlers
             _parcelsRepository = parcelsRepository;
         }
 
-        public async Task HandleAsync(ParcelAdded parceAddedEvent)
+        public async Task HandleAsync(ParcelAdded parcelAddedEvent)
         {
-            _logger.LogInformation($"Parcel added event: {parceAddedEvent.ParcelId}");
-            await _parcelsRepository.AddAsync(new Parcel(parceAddedEvent.ParcelId, string.Empty));
+            _logger.LogInformation($"Parcel added event: {parcelAddedEvent.ParcelId}");
+            await _parcelsRepository.AddAsync(new Parcel(parcelAddedEvent.ParcelId, string.Empty));
         }
     }
 }
