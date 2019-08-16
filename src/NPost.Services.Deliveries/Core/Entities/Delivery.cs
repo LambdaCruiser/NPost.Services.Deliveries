@@ -11,8 +11,9 @@ namespace NPost.Services.Deliveries.Core.Entities
         public Status Status { get; set; }
         public string Notes { get; set; }
 
-        public Delivery()
+        public Delivery(Guid id)
         {
+            Id = id;
             Parcels = new List<ParcelInDelivery>();
             Notes = string.Empty;
         }
